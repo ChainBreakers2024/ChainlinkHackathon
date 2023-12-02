@@ -1,6 +1,6 @@
 ![image](https://user-images.githubusercontent.com/3408362/230732083-1c98e451-08af-41c2-b522-126370e8c6a5.png)
 
-# ⚡ ChainBreakers - Web3 App Starter Kit
+# ⚡ ChainBreakers - Gambling
 
 ![CI](https://github.com/turbo-eth/template-web3-app/actions/workflows/ci.yml/badge.svg)
 ![TS](https://badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555)
