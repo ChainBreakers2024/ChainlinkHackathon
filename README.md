@@ -21,6 +21,7 @@ Web3 App Template built using Next.js, RainbowKit, Tailwind, Sign-In With Ethere
 - Core Integrations
   - [🌈 RainbowKit](https://docs.turboeth.xyz/integration/rainbowkit)
   - [🔏 Sign-In With Ethereum](https://docs.turboeth.xyz/integration/sign-in-with-ethereum)
+  - [🦊 Sign-In Wtih Metamask](https://metamask.io/)
 - Smart Contract Integrations
   - [ERC20](https://docs.turboeth.xyz/integration/smart-contract-erc20)
 - API Integrations
