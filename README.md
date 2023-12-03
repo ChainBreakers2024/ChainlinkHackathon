@@ -129,8 +129,7 @@ Common types according to [commitlint-config-conventional (based on the Angular 
 
 Original template was forked from https://github.com/wslyvh/nexth
 
-Thank you @wslyvh 🙏
 
 <hr/>
 
-Copyright 2023 [Kames Geraghty](https://twitter.com/KamesGeraghty)
+Copyright 2023 [Kames Geraghty]
