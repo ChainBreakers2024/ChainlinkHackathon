@@ -5,6 +5,7 @@ import "@rainbow-me/rainbowkit/styles.css"
 import { ReactNode } from "react"
 import {
   connectorsForWallets,
+  Chain,
   darkTheme,
   lightTheme,
   RainbowKitProvider,

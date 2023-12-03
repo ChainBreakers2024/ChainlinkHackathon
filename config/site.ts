@@ -15,22 +15,22 @@ interface SiteConfig {
   }
 }
 
-export const SITE_CANONICAL = "https://turboeth.xyz"
+export const SITE_CANONICAL = "https://chainbreakers.cloud"
 
 export const siteConfig: SiteConfig = {
   name: "ChainBreakers",
-  title: "ChainBreakers - Web3 App Template",
+  title: "ChainBreakers - Web3 App",
   emoji: "⚡",
   description:
     "Break the chain with ChainBreakers.",
   localeDefault: "en",
   links: {
-    docs: "https://docs.turboeth.xyz/overview",
-    discord: "https://discord.gg/U4jy7Xfh76",
-    twitter: "https://twitter.com/district_labs",
-    github: "https://github.com/turbo-eth/template-web3-app",
+    docs: "https://forms.gle/hD1rBufG1VP1mUYi9",
+    discord: "https://discord.com",
+    twitter: "https://twitter.com",
+    github: "https://github.com/ChainBreakers2024/ChainlinkHackathon",
   },
 }
 
 export const DEPLOY_URL =
-  "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fturbo-eth%2Ftemplate-web3-app&project-name=ChainBreakers&repository-name=turbo-eth&demo-title=ChainBreakers&env=NEXTAUTH_SECRET,DATABASE_URL&envDescription=How%20to%20get%20these%20env%20variables%3A&envLink=https%3A%2F%2Fgithub.com%2Fturbo-eth%2Ftemplate-web3-app%2Fblob%2Fintegrations%2F.env.example"
+  "https://vercel.com"

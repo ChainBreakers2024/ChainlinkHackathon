@@ -152,6 +152,9 @@ dependencies:
   jotai:
     specifier: ^1.13.0
     version: 1.13.1(@babel/core@7.18.5)(react@18.2.0)
+  jquery:
+    specifier: ^3.7.1
+    version: 3.7.1
   luxon:
     specifier: ^3.2.1
     version: 3.3.0
@@ -19475,6 +19478,10 @@ packages:
     dependencies:
       '@babel/core': 7.18.5
       react: 18.2.0
+    dev: false
+
+  /jquery@3.7.1:
+    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
     dev: false
 
   /js-base64@3.7.5:
