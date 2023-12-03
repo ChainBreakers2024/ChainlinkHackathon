@@ -17,7 +17,7 @@ export function Footer({ className, ...props }: HTMLAttributes<HTMLElement>) {
     <footer className={classes} {...props}>
       <h3>{siteConfig.title}</h3>
       <Link
-        href="https://districtlabs.com/"
+        href="#"
         target="_blank"
         rel="noreferrer noopenner"
         className={cn(buttonVariants({ variant: "link", size: "sm" }))}

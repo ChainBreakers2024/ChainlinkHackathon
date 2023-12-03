@@ -19,9 +19,8 @@ wss.on('connection', (ws) => {
     users.push(data.toString());
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send("head_" + JSON.stringify(users));
-        client.send("tails_" + JSON.stringify(users));
-        client.send("spec_" + JSON.stringify(users));
+        client.send(JSON.stringify(head));
+        client.send(JSON.stringify(tails));
       }
     });
   });

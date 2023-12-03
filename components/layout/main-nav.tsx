@@ -79,7 +79,7 @@ function MainNavMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <LinkComponent href="https://docs.turboeth.xyz/overview">
+          <LinkComponent href="#">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <span>Documentation</span>
             </NavigationMenuLink>

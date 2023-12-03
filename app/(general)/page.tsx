@@ -13,7 +13,6 @@ import {
   PageHeaderHeading,
 } from "@/components/layout/page-header"
 import { CopyButton } from "@/components/shared/copy-button"
-import { ExampleDemos } from "@/components/shared/example-demos"
 
 export default function HomePage() {
   return (
@@ -42,14 +41,13 @@ export default function HomePage() {
           
         </PageHeaderCTA>
         <PageHeaderCTA>
-          <CopyButton value="">
+          <CopyButton value="chainbreakers.cloud">
             <span className="text-xs sm:text-base">
-              chainbreakers.com
+              chainbreakers.cloud
             </span>
           </CopyButton>
         </PageHeaderCTA>
       </PageHeader>
-      <ExampleDemos />
     </div>
   )
 }

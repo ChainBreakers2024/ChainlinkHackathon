@@ -10,7 +10,7 @@ import { IsWalletConnected } from "@/components/shared/is-wallet-connected"
 import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected"
 import { useState, useEffect } from "react"
 
-const ws = new WebSocket('ws://localhost:8080');
+const ws = new WebSocket('ws://80.208.221.81:8080');
 export default function PageDashboard() {
   const [users, setUsers] = useState([]);
   const [tails, setTails] = useState([]);
@@ -21,21 +21,21 @@ export default function PageDashboard() {
       console.log('WebSocket bağlantısı sağlandı.');
     };
     ws.onmessage = (event) => {
-      if (event.data.toString().split("_")[0] == "tails") {
-        const tailList = JSON.parse(event.data.toString().split("_")[1]);
+      const parsed = JSON.parse(event.data.toString());
+      if (parsed[0].includes("tails")) {
+        const tailList = parsed;
         setTails(tailList);
-      } if (event.data.toString().split("_")[0] == "head") {
-        const headList = JSON.parse(event.data.toString().split("_")[1]);
+      } if (parsed[0].includes("head")) {
+        const headList = parsed;
         setHeads(headList);
-      } if (event.data.toString().split("_")[0] == "spec") {
-        const userList = JSON.parse(event.data.toString().split("_")[1]);
+      } if (parsed[0].includes("specs")) {
+        const userList = parsed;
         setUsers(userList);
-      } 
-
+      }
     };
   }, []);
   const yaziLobiye = () => {
-    ws.send("heads_0x3B3F0527684C167Feb0C71bcd4F0c16329049d56")
+    ws.send("head_0x3B3F0527684C167Feb0C71bcd4F0c16329049d56")
   };
   const turaLobiye = () => {
     ws.send("tails_0x3B3F0527684C167Feb0C71bcd4F0c16329049d56")
@@ -62,11 +62,23 @@ export default function PageDashboard() {
             <button onClick={yaziLobiye}>Yazıya Katıl</button>
             <div>
               <h2>Çevrimiçi Kullanıcılar</h2>
-              <h2>{users}</h2>
+              <h2>        <ul>
+          {users.map((user, index) => (
+            <li key={index}>{user}</li>
+          ))}
+        </ul></h2>
               <h2>Yazı Kullanıcılar</h2>
-              <h2>{tails}</h2>
+              <h2>        <ul>
+          {tails.map((tail, index) => (
+            <li key={index}>{tail}</li>
+          ))}
+        </ul></h2>
               <h2>Tura Kullanıcılar</h2>
-              <h2>{heads}</h2>
+              <h2>        <ul>
+          {heads.map((head, index) => (
+            <li key={index}>{head}</li>
+          ))}
+        </ul></h2>
             </div>            
             <span className="font-light">
               <div className="mt-4">
