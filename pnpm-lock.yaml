@@ -221,6 +221,9 @@ dependencies:
   wagmi:
     specifier: 1.3.10
     version: 1.3.10(react-dom@18.2.0)(react-native@0.72.7)(react@18.2.0)(typescript@5.0.4)(viem@1.0.0)(zod@3.21.4)
+  ws:
+    specifier: ^8.14.2
+    version: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -6387,7 +6390,7 @@ packages:
       tsconfig-paths: 4.2.0
       tslib: 2.5.0
       typescript: 5.0.4
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@babel/core'
@@ -6827,7 +6830,7 @@ packages:
       graphql-ws: 5.12.1(graphql@16.8.1)
       isomorphic-ws: 5.0.0(ws@8.13.0)
       tslib: 2.5.0
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -6843,9 +6846,9 @@ packages:
       '@types/ws': 8.5.5
       graphql: 16.8.1
       graphql-ws: 5.14.0(graphql@16.8.1)
-      isomorphic-ws: 5.0.0(ws@8.13.0)
+      isomorphic-ws: 5.0.0(ws@8.14.2)
       tslib: 2.5.0
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -6897,7 +6900,7 @@ packages:
       graphql: 16.8.1
       isomorphic-ws: 5.0.0(ws@8.13.0)
       tslib: 2.5.0
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -6914,7 +6917,7 @@ packages:
       graphql: 16.8.1
       isomorphic-ws: 5.0.0(ws@8.13.0)
       tslib: 2.5.0
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.13.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -7314,10 +7317,10 @@ packages:
       '@types/ws': 8.5.5
       '@whatwg-node/fetch': 0.8.8
       graphql: 16.8.1
-      isomorphic-ws: 5.0.0(ws@8.13.0)
+      isomorphic-ws: 5.0.0(ws@8.14.2)
       tslib: 2.5.0
       value-or-promise: 1.0.12
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -7341,10 +7344,10 @@ packages:
       '@types/ws': 8.5.5
       '@whatwg-node/fetch': 0.9.9
       graphql: 16.8.1
-      isomorphic-ws: 5.0.0(ws@8.13.0)
+      isomorphic-ws: 5.0.0(ws@8.14.2)
       tslib: 2.5.0
       value-or-promise: 1.0.12
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -19180,7 +19183,15 @@ packages:
     peerDependencies:
       ws: '*'
     dependencies:
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.13.0
+    dev: true
+
+  /isomorphic-ws@5.0.0(ws@8.14.2):
+    resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
+    peerDependencies:
+      ws: '*'
+    dependencies:
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     dev: true
 
   /isstream@0.1.2:
@@ -23707,7 +23718,7 @@ packages:
       '@babel/runtime': 7.21.5
       eventemitter3: 4.0.7
       uuid: 8.3.2
-      ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     optionalDependencies:
       bufferutil: 4.0.8
       utf-8-validate: 5.0.10
@@ -26594,8 +26605,21 @@ packages:
       utf-8-validate:
         optional: true
 
-  /ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+  /ws@8.13.0:
     resolution: {integrity: sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: true
+
+  /ws@8.14.2(bufferutil@4.0.8)(utf-8-validate@5.0.10):
+    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1

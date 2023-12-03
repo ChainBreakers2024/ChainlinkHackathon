@@ -21,7 +21,6 @@ export function SiteHeader() {
     >
       <div className="container flex h-20 items-center">
         <MainNav />
-        <MobileNav />
         <div className="hidden flex-1 items-center justify-between space-x-2 md:flex md:justify-end">
           <Link
             href="/dashboard"

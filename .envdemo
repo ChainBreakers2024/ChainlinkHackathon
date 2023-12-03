@@ -23,14 +23,14 @@ NEXT_PUBLIC_SITE_URL=
 # Private Variables
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Generate one here: https://generate-secret.vercel.app/32
-NEXTAUTH_SECRET=
+NEXTAUTH_SECRET=5eaa300eadff8b03d0d0874156ab1324
 
 # Prisma: https://www.prisma.io
 DATABASE_URL=
 
 # Users to be added as admins. Separate with commas. Can access the application database
 # Example: "0x123,0x456"
-APP_ADMINS=""
+APP_ADMINS="0x3B3F0527684C167Feb0C71bcd4F0c16329049d56"
 
 # Disco: https://docs.disco.xyz
 # Request API access at https://discoxyz.typeform.com/requestapi

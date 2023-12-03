@@ -10,6 +10,11 @@ import { WalletNonce } from "@/components/blockchain/wallet-nonce"
 import { IsWalletConnected } from "@/components/shared/is-wallet-connected"
 import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected"
 
+const data = [
+  { option: '0', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '1', style: { backgroundColor: 'white' } },
+  { option: '2' },
+]
 export default function PageDashboardAccount() {
   return (
     <motion.div

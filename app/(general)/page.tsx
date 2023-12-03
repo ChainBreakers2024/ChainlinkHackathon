@@ -29,17 +29,9 @@ export default function HomePage() {
         <PageHeaderHeading>Chain Breakers</PageHeaderHeading>
         <PageHeaderDescription>{siteConfig.description}</PageHeaderDescription>
         <PageHeaderCTA>
+         
           <Link
-            href={siteConfig.links.docs}
-            target="_blank"
-            rel="noreferrer noopener"
-            className={buttonVariants({ variant: "default" })}
-          >
-            <LuBook className="mr-2 h-4 w-4" />
-            Docs
-          </Link>
-          <Link
-            href={siteConfig.links.github}
+            href={"https://github.com/ChainBreakers2024/ChainlinkHackathon"}
             target="_blank"
             rel="noreferrer noopener"
             className={buttonVariants({ variant: "secondary" })}
@@ -47,18 +39,7 @@ export default function HomePage() {
             <FaGithub className="mr-2 h-4 w-4" />
             Github
           </Link>
-          <Link
-            href={siteConfig.links.discord}
-            target="_blank"
-            rel="noreferrer noopener"
-            className={cn(
-              buttonVariants(),
-              "bg-[#7289da] text-white hover:bg-[#7289da]/80"
-            )}
-          >
-            <FaDiscord className="mr-2 h-4 w-4" />
-            Discord
-          </Link>
+          
         </PageHeaderCTA>
         <PageHeaderCTA>
           <CopyButton value="">

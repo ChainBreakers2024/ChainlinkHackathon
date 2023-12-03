@@ -39,7 +39,6 @@ export function MainNav() {
         </span>
       </Link>
       <nav className="flex items-center space-x-6 text-base font-medium">
-        <MainNavMenu />
       </nav>
     </div>
   )
