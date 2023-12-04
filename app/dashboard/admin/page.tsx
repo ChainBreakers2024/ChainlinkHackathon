@@ -22,9 +22,9 @@ export default function PageDashboardTransactions() {
         </IsSignedOut>
       </div>
       <hr className="my-5 opacity-50" />
-      <IsSignedIn>
+      <IsSignedOut>
         <RenderUserTable />
-      </IsSignedIn>
+      </IsSignedOut>
     </section>
   )
 }

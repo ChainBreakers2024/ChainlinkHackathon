@@ -101,7 +101,7 @@ export default function PageDashboard() {
                     <p>User Count: {clickedRoom.userCount}</p>
                     <p>Game: {clickedRoom.game}</p>
                     <Link
-                      href={"/dashboard/account"}
+                      href={"/dashboard/room"}
                       rel="noreferrer noopener"
                       className={buttonVariants({ variant: "secondary" })}
                     >
