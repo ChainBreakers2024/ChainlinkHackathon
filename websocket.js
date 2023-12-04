@@ -1,42 +1,45 @@
 // websocket.js
 
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
+const { Server } = require("socket.io");
+const http = require("http");
 
-const exrooms = [
-  {
-    id: 1,
-    name: "Room 1",
-    game: "headtails",
-    users: [1, 2, 3],
+const server = http.createServer();
+const io = new Server(server, {
+  cors: {
+    origin: "http://80.208.221.81:3000", // Replace with your frontend URL
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
   },
-  {
-    id: 2,
-    name: "Room 2",
-    game: "roulette",
-    users: [4, 5],
-  },
-];
-
-let exusers = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank"];
+});
 
 const rooms = [
   {
   id: "002cfa6a-8e25-4a0b-9af2-a112cb43c49f",
   game: "roulette",
-  name: "Room 1",
-  users: [1, 2, 3],
+  name: "Test Room 1",
+  users: [],
 },
 {
   id: "f40ca429-f9ee-4e2c-9bfa-e77679c140ab",
   game: "roulette",
-  name: "Room 2",
-  users: [4, 5],
+  name: "Test Room 2",
+  users: [],
+},
+{
+  id: "09e0cb99-a6b7-4a9e-a78c-6f24f4e17066",
+  game: "headtails",
+  name: "Test Room 31sj",
+  users: [],
+},
+{
+  id: "f2949e33-ff08-4f82-873c-241b034c1e82",
+  game: "russianroulette",
+  name: "Mental Breakdown Help",
+  users: [],
 },
 ]
-let users = [  
-
-]
+let users = []
 
 function uuidV4() {
   const uuid = new Array(36);
@@ -61,6 +64,7 @@ function newRoom(roomName, game) {
   rooms.push(newRoom);
   return newRoom;
 }
+
 
 // Yeni kullanıcı ekleme fonksiyonu
 function newUser(userName) {
@@ -99,10 +103,7 @@ function leaveRoom(userName, roomId) {
 
 function getRoomDetails(roomId) {
   const room = rooms.find(room => room.id === roomId);
-  const userList = room.users.map(userId => {
-    const user = users.find(u => u.id === userId);
-    return user ? user.name : `${userId}`;
-  });
+  const userList = room.users.map(user => `${user.slice(0, 6)}...${user.slice(-4)}`);
 
   return {
     roomName: room.name,
@@ -113,37 +114,52 @@ function getRoomDetails(roomId) {
   };
 }
 
-function getUserDetails(user) {
-  const userRooms = rooms.filter(room => room.users.includes(user.name)).map(room => room.name);
-
-  return {
-    userName: user.name,
-    // Diğer kullanıcı detayları buraya eklenebilir
-  };
+function checkUser(userName) {
+  return users.includes(userName);
 }
 
-wss.on('connection', (ws) => {
-  console.log("A client has connected.")
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
+function getUserDetails(userName) {
+  const userRoom = rooms.find(room => room.users.includes(userName));
+  return userRoom ? userRoom.id : "User not found in any room";
 }
-  });
-  
-  ws.on('message', (data) => {
-    let sec = data.toString().split("_")
-    if (sec[0] == "get") {
-      if (sec[1] == "lobiler") {
-        wss.clients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(sec[1] + "_" + JSON.stringify(listRooms()));
-          }
-        });
-      } if (sec[1] == "lobi") {
-        
-      }
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.on("join_room", (data) => {
+    if (checkUser() == false) {
+      newUser(data.name)
     }
+    joinRoom(data.name, data.id)
+    socket.join(data.id)
+    socket.to(data.id).emit("get_room", getRoomDetails(data.id));
+    socket.emit("get_room", getRoomDetails(data.id));
+  });
 
+  socket.on("leave_room", (data) => {
+    leaveRoom(data.name, data.id)
+    socket.leave(data.id)
+    socket.to(data.id).emit("get_room", getRoomDetails(data.id));
+    socket.emit("get_room", getRoomDetails(data.id));
+  });
+
+  socket.on("get_room", (data) => {
+    socket.emit("get_room", getRoomDetails(data));
+  });
+
+  socket.on("get_userroom", (data) => {
+    socket.emit("get_userroom", getUserDetails(data));
+  });
+
+  socket.on("get_rooms", (data) => {
+    socket.emit("get_rooms", listRooms());
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected:", socket.id);
   });
 });
 
-console.log('WebSocket server started on port 8080');
+server.listen(8080, () => {
+  console.log("Socket.IO server started on port 8080");
+});

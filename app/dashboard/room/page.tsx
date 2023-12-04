@@ -11,7 +11,8 @@ import { IsWalletConnected } from "@/components/shared/is-wallet-connected"
 import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected"
 import { useAccount } from "wagmi";
 import { useState, useEffect } from "react";
-const ws = new WebSocket("wss://chainbreakers.cloud/aws");
+import RoomPage from "@/components/app/room"
+import { socket } from "@/lib/socketio"
 
 const data = [
   { option: '0', style: { backgroundColor: 'green', textColor: 'black' } },
@@ -21,20 +22,6 @@ const data = [
 export default function PageDashboardAccount() {
 
   useEffect(() => {
-    const ws = new WebSocket("wss://chainbreakers.cloud/aws");
-
-    ws.onopen = (e) => {
-      ws.send("get_lobi");
-      console.log("WebSocket bağlantısı sağlandı.");
-    };
-
-    ws.onmessage = (event) => {
-      const dataArray = event.data.toString().split("_");
-
-      if (dataArray[0] == "lobiler") {
-        const lobiList = JSON.parse(dataArray[1] || "[]");
-      }
-    };
   }, []);
 
   return (
@@ -47,21 +34,7 @@ export default function PageDashboardAccount() {
       whileInView="show"
     >
       <IsWalletConnected>
-        <Card className="w-[420px] p-6">
-          <h3 className="text-2xl font-normal">Account</h3>
-          <hr className="my-3 dark:opacity-30" />
-          <div className="mt-3">
-            <span className="mr-1 font-bold">Address:</span>{" "}
-            <WalletAddress truncate />
-          </div>
-          <div className="mt-3">
-            <span className="mr-1 font-bold">Balance:</span> <WalletBalance />
-          </div>
-          <div className="mt-3">
-            <span className="mr-1 font-bold">Nonce:</span> <WalletNonce />
-          </div>
-          <hr className="my-3 dark:opacity-30" />
-        </Card>
+        <RoomPage socket = {socket}></RoomPage>
       </IsWalletConnected>
       <IsWalletDisconnected>
         <h3 className="text-lg font-normal">

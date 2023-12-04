@@ -6,6 +6,7 @@ import Link from "next/link"
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/config/design";
 import { WalletAddress } from "@/components/blockchain/wallet-address";
 import { useAccount } from "wagmi";
+import LobbyPage from "@/components/app/lobbies"
 import { WalletBalance } from "@/components/blockchain/wallet-balance";
 import { WalletEnsName } from "@/components/blockchain/wallet-ens-name";
 import { IsWalletConnected } from "@/components/shared/is-wallet-connected";
@@ -13,37 +14,14 @@ import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected
 import { useState, useEffect } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { p } from "@bgd-labs/aave-address-book/dist/AaveV2EthereumAssets-3fdcb680";
-const ws = new WebSocket("wss://chainbreakers.cloud/aws");
+import { socket } from "@/lib/socketio"
+
 
 export default function PageDashboard() {
-  const [lobiler, setLobi] = useState([]);
-  const [clickedRoom, setClickedRoom] = useState(null);
   const address = useAccount();
 
   useEffect(() => {
-    const ws = new WebSocket("wss://chainbreakers.cloud/aws");
-
-    ws.onopen = (e) => {
-      ws.send("get_lobiler");
-      console.log("WebSocket bağlantısı sağlandı.");
-    };
-
-    ws.onmessage = (event) => {
-      const dataArray = event.data.toString().split("_");
-
-      if (dataArray[0] == "lobiler") {
-        const lobiList = JSON.parse(dataArray[1] || "[]");
-        setLobi(lobiList);
-      }
-    };
   }, []);
-  const joinRoom = (roomId) => {
-    const clickedRoom = lobiler.find(room => room.roomId === roomId);
-    console.log(clickedRoom)
-    console.log(lobiler)
-    setClickedRoom(clickedRoom)
-    console.log(`Joining room: ${roomId}`);
-  };
 
   return (
     <motion.div
@@ -73,44 +51,9 @@ export default function PageDashboard() {
               </div>
             </span>
             <br></br>
-            <div className="two-column-container">
-              <div className="column"> 
-                <h1>Rooms</h1>
-                <h2>
-                  {lobiler.map((room, index) => (
-                    <div
-                      key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                      <div>
-                        <p>Room Name: {room.roomName}</p>
-                        <p>User Count: {room.userCount}</p>
-                      </div>
-                      <button onClick={() => joinRoom(room.roomId)} style={{ marginRight: "10px" }} className={buttonVariants({ variant: "secondary" })}>
-                        View Room
-                      </button>
-                    </div>
-                  ))}
-                </h2>
-              </div>
 
-              <div className="column">
-                <h2>Room Content</h2>
-                {clickedRoom && (
-                  <div>
-                    <p>ID: {clickedRoom.roomId}</p>
-                    <p>Name: {clickedRoom.roomName}</p>
-                    <p>User Count: {clickedRoom.userCount}</p>
-                    <p>Game: {clickedRoom.game}</p>
-                    <Link
-                      href={"/dashboard/room"}
-                      rel="noreferrer noopener"
-                      className={buttonVariants({ variant: "secondary" })}
-                    >
-                      Join Room
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
+            <LobbyPage socket = {socket}></LobbyPage>
+
           </div>
         </div>
       </IsWalletConnected>

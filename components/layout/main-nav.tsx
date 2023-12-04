@@ -21,6 +21,10 @@ import { Separator } from "@/components/ui/separator"
 import { LightDarkImage } from "@/components/shared/light-dark-image"
 
 import { LinkComponent } from "../shared/link-component"
+import { io } from "socket.io-client"
+
+var socket: any;
+socket = io("http://80.208.221.81:8080");
 
 export function MainNav() {
   return (
