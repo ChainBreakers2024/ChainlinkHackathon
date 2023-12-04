@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 
+import Link from "next/link"
 import { FADE_DOWN_ANIMATION_VARIANTS } from "@/config/design";
 import { WalletAddress } from "@/components/blockchain/wallet-address";
 import { useAccount } from "wagmi";
@@ -11,6 +12,7 @@ import { IsWalletConnected } from "@/components/shared/is-wallet-connected";
 import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected";
 import { useState, useEffect } from "react";
 import { buttonVariants } from "@/components/ui/button";
+import { p } from "@bgd-labs/aave-address-book/dist/AaveV2EthereumAssets-3fdcb680";
 const ws = new WebSocket("wss://chainbreakers.cloud/aws");
 
 export default function PageDashboard() {
@@ -35,11 +37,6 @@ export default function PageDashboard() {
       }
     };
   }, []);
-
-  const turaLobiye = () => {
-    ws.send("tails_" + address.address);
-  };
-
   const joinRoom = (roomId) => {
     const clickedRoom = lobiler.find(room => room.roomId === roomId);
     console.log(clickedRoom)
@@ -77,16 +74,8 @@ export default function PageDashboard() {
             </span>
             <br></br>
             <div className="two-column-container">
-              <div className="column">
-                <button
-                  onClick={turaLobiye}
-                  className={buttonVariants({ variant: "secondary" })}
-                >
-                  Lobiye Katıl
-                </button>
-
-                
-                <h1>Lobiler</h1>
+              <div className="column"> 
+                <h1>Rooms</h1>
                 <h2>
                   {lobiler.map((room, index) => (
                     <div
@@ -96,7 +85,7 @@ export default function PageDashboard() {
                         <p>User Count: {room.userCount}</p>
                       </div>
                       <button onClick={() => joinRoom(room.roomId)} style={{ marginRight: "10px" }} className={buttonVariants({ variant: "secondary" })}>
-                        Join Room
+                        View Room
                       </button>
                     </div>
                   ))}
@@ -104,13 +93,20 @@ export default function PageDashboard() {
               </div>
 
               <div className="column">
-                <h2>Oda İçeriği</h2>
+                <h2>Room Content</h2>
                 {clickedRoom && (
                   <div>
                     <p>ID: {clickedRoom.roomId}</p>
                     <p>Name: {clickedRoom.roomName}</p>
                     <p>User Count: {clickedRoom.userCount}</p>
                     <p>Game: {clickedRoom.game}</p>
+                    <Link
+                      href={"/dashboard/account"}
+                      rel="noreferrer noopener"
+                      className={buttonVariants({ variant: "secondary" })}
+                    >
+                      Join Room
+                    </Link>
                   </div>
                 )}
               </div>
