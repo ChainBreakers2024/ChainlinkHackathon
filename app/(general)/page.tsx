@@ -21,8 +21,8 @@ export default function HomePage() {
         <Image
           src="/logo-gradient.png"
           alt="ChainBreakers Logo"
-          width={80}
-          height={80}
+          width={512}
+          height={512}
           className="h-20 w-20 rounded-2xl"
         />
         <PageHeaderHeading>Chain Breakers</PageHeaderHeading>

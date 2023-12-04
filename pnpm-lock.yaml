@@ -218,6 +218,9 @@ dependencies:
   usehooks-ts:
     specifier: ^2.9.1
     version: 2.9.1(react-dom@18.2.0)(react@18.2.0)
+  uuid:
+    specifier: ^9.0.1
+    version: 9.0.1
   viem:
     specifier: ^1.0.0
     version: 1.0.0(typescript@5.0.4)(zod@3.21.4)
@@ -7931,7 +7934,7 @@ packages:
       lodash: 4.17.21
       react: 18.2.0
       tslib: 2.5.0
-      uuid: 9.0.0
+      uuid: 9.0.1
       zod: 3.21.4
     transitivePeerDependencies:
       - '@ethersproject/contracts'
@@ -7965,7 +7968,7 @@ packages:
       ethers: 5.7.2
       lodash: 4.17.21
       tslib: 2.5.0
-      uuid: 9.0.0
+      uuid: 9.0.1
     dev: false
 
   /@lens-protocol/storage@0.7.4(ethers@5.7.2):
@@ -9308,7 +9311,7 @@ packages:
       openpgp: 5.9.0
       simple-peer: 9.11.1
       tslib: 2.5.0
-      uuid: 9.0.0
+      uuid: 9.0.1
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -25668,8 +25671,8 @@ packages:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
 
-  /uuid@9.0.0:
-    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
     dev: false
 
@@ -25978,7 +25981,7 @@ packages:
       eth-lib: 0.2.8
       ethereumjs-util: 7.1.5
       scrypt-js: 3.0.1
-      uuid: 9.0.0
+      uuid: 9.0.1
       web3-core: 1.10.0
       web3-core-helpers: 1.10.0
       web3-core-method: 1.10.0
