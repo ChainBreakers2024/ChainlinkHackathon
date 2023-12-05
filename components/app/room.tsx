@@ -38,7 +38,7 @@ const RoomPage = () => {
 
   return (
     <Card className="w-[420px] p-6">
-      <h3 className="text-2xl font-normal">{userRoom.roomName}</h3>
+      {userRoom && <h3 className="text-2xl font-normal">{userRoom.roomName}</h3>}
       <hr className="my-3 dark:opacity-30" />
       <div className="mt-3">
         <span className="mr-1 font-bold">Id:</span> {userRoom.roomId}

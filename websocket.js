@@ -37,10 +37,10 @@ function uuidV4() {
 }
 
 function createRandomRoomName() {
-  const gamblingWords = ["Jackpot", "Bet", "Lucky", "Roller", "Casino", "Ace", "Poker", "Fortune"];
-  const roomTypes = ["Room", "Lounge", "Suite", "Den", "Parlor", "Zone", "Hangout"];
-  const numberSuffixes = ["101", "360", "5000", "777", "123", "999"];
-
+  const gamblingWords = ["Jackpot", "Bet", "Lucky", "Roller", "Casino", "Ace", "Poker", "Fortune", "Champion", "Win", "Gold", "Spin", "Joker", "Diamond", "Bingo", "Cash", "Gamble", "Rich", "High Roller", "Lotto", "Blackjack", "Slot", "Coin", "Prize", "Card", "Fortune", "Chance", "Wager", "Deal", "Pot", "Baccarat", "Roulette", "Challenge", "Risky", "Lure", "Gaming", "Stack", "Gala", "Victory", "Feast", "Celebration", "Mystery", "Fate", "Hazard", "Play", "Epic", "Zest", "Thrill", "Bonanza", "Treasure", "Jack", "Risk", "Dice", "Betrayal", "Greed", "Luck"];
+  const roomTypes = ["Room", "Lounge", "Suite", "Den", "Parlor", "Zone", "Hangout", "Chamber", "Club", "Cove", "Cabin", "Grotto", "Haven", "Oasis", "Vault", "Emporium", "Hideaway", "Retreat", "Sanctuary", "Casita", "Nest", "Habitat", "Manor", "Mansion", "Palace", "Estate", "Villa", "Resort", "Inn", "Hotel", "Quarters", "Atrium", "Bungalow", "Camp", "Cellar", "Coliseum", "Crypt", "Dormitory", "Foyer", "Gallery", "Gazebo", "Harbor", "Kennel", "Labyrinth", "Observatory", "Pavilion", "Pyramid", "Silo", "Terrace", "Utopia", "Vestibule", "Warehouse", "Xanadu", "Yacht"];
+  const numberSuffixes = ["101", "360", "5000", "777", "123", "999", "007", "234", "666", "888", "2000", "1000", "2022", "2023", "2024", "3000", "2025", "2026", "2027", "2028", "2029", "2030", "2040", "2050", "3001", "3002", "4000", "5001", "6000", "7000", "8000", "9000", "10000"];
+  
   const randomWord = array => array[Math.floor(Math.random() * array.length)];
   const randomRoomName = `${randomWord(gamblingWords)} ${randomWord(roomTypes)} ${randomWord(numberSuffixes)}`;
 
@@ -131,20 +131,24 @@ function getUserDetails(userName) {
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
 
+  function leaveproper(userName) {
+    if (getUserDetails(userName) ) {
+      if (getUserDetails(userName) == userName) return  
+      const old_room = getUserDetails(userName)
+      leaveRoom(userName, old_room)
+      socket.leave(old_room)
+      socket.to(old_room).emit("get_room", getRoomDetails(old_room));
+      socket.emit("get_room", getRoomDetails(old_room));
+    }
+  }
+
   socket.on("send_message", (data) => {
     socket.to(getUserDetails(data.address)).emit("chat_message", { sender: `${data.address.slice(0, 6)}...${data.address.slice(-4)}`, text: data.message });
     socket.emit("chat_message", { sender: `${data.address.slice(0, 6)}...${data.address.slice(-4)}`, text: data.message });
   });
 
   socket.on("join_room", (data) => {
-    if (getUserDetails(data.name) ) {
-      if (getUserDetails(data.name) == data.id) return  
-      const old_room = getUserDetails(data.name)
-      leaveRoom(data.name, old_room)
-      socket.leave(old_room)
-      socket.to(old_room).emit("get_room", getRoomDetails(old_room));
-      socket.emit("get_room", getRoomDetails(old_room));
-    }
+    leaveproper(data.id)
 
     joinRoom(data.name, data.id)
     socket.join(data.id)
@@ -164,13 +168,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new_room", (data) => {
-    if (getUserDetails(data)) {
-      const old_room = getUserDetails(data)
-      leaveRoom(data, old_room)
-      socket.leave(old_room)
-      socket.to(old_room).emit("get_room", getRoomDetails(old_room));
-      socket.emit("get_room", getRoomDetails(old_room));
-    }
+    leaveproper(data)
+
     const new_room = newRoom(createRandomRoomName(),"roulette",data)
     joinRoom(data, new_room.id)
     socket.join(new_room.id)
