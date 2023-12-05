@@ -18,25 +18,8 @@ const rooms = [
   id: "002cfa6a-8e25-4a0b-9af2-a112cb43c49f",
   game: "roulette",
   name: "Test Room 1",
-  users: ["0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2",],
-},
-{
-  id: "f40ca429-f9ee-4e2c-9bfa-e77679c140ab",
-  game: "roulette",
-  name: "Test Room 2",
-  users: [],
-},
-{
-  id: "09e0cb99-a6b7-4a9e-a78c-6f24f4e17066",
-  game: "headtails",
-  name: "Test Room 31sj",
-  users: [],
-},
-{
-  id: "f2949e33-ff08-4f82-873c-241b034c1e82",
-  game: "russianroulette",
-  name: "Mental Breakdown Help",
-  users: [],
+  owner: "",
+  users: ["0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2"],
 },
 ]
 let users = []
@@ -53,11 +36,23 @@ function uuidV4() {
   return uuid.map((x) => x.toString(16)).join('');
 }
 
-function newRoom(roomName, game) {
+function createRandomRoomName() {
+  const gamblingWords = ["Jackpot", "Bet", "Lucky", "Roller", "Casino", "Ace", "Poker", "Fortune"];
+  const roomTypes = ["Room", "Lounge", "Suite", "Den", "Parlor", "Zone", "Hangout"];
+  const numberSuffixes = ["101", "360", "5000", "777", "123", "999"];
+
+  const randomWord = array => array[Math.floor(Math.random() * array.length)];
+  const randomRoomName = `${randomWord(gamblingWords)} ${randomWord(roomTypes)} ${randomWord(numberSuffixes)}`;
+
+  return randomRoomName;
+}
+
+function newRoom(roomName, game, owner) {
   let uuid = uuidV4()
   const newRoom = {
     id: uuid,
     game: game,
+    owner,
     name: roomName,
     users: [],
   };
@@ -95,15 +90,24 @@ function listRooms() {
 
 // Kullanıcıyı odadan çıkarma fonksiyonu
 function leaveRoom(userName, roomId) {
-  const room = rooms.find(room => room.id === roomId);
-  if (room) {
+  const roomIndex = rooms.findIndex(room => room.id === roomId);
+  if (roomIndex !== -1) {
+    const room = rooms[roomIndex];
     room.users = room.users.filter(user => user !== userName);
+
+    if (room.users.length === 0) {
+      rooms.splice(roomIndex, 1); // Remove the room if no users are left
+    }
   }
 }
 
+
+
 function getRoomDetails(roomId) {
-  if (!roomId) {return};
   const room = rooms.find(room => room.id === roomId);
+  if (!room || !room.users) {
+    return null; // or handle the case where room or users are undefined/null
+  }
   const userList = room.users.map(user => `${user.slice(0, 6)}...${user.slice(-4)}`);
 
   return {
@@ -128,10 +132,11 @@ io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
 
   socket.on("join_room", (data) => {
-    if (checkUser() == false) {
-      newUser(data.name)
+    if (getUserDetails(data.name) == data.id) {
+      console.log("test")
     }
-    if (getUserDetails(data.name)) {
+
+    if (getUserDetails(data.name) ) {
       const old_room = getUserDetails(data.name)
       leaveRoom(data.name, old_room)
       socket.leave(old_room)
@@ -154,6 +159,21 @@ io.on("connection", (socket) => {
 
   socket.on("get_room", (data) => {
     socket.emit("get_room", getRoomDetails(data));
+  });
+
+  socket.on("new_room", (data) => {
+    if (getUserDetails(data)) {
+      const old_room = getUserDetails(data)
+      leaveRoom(data, old_room)
+      socket.leave(old_room)
+      socket.to(old_room).emit("get_room", getRoomDetails(old_room));
+      socket.emit("get_room", getRoomDetails(old_room));
+    }
+    const new_room = newRoom(createRandomRoomName(),"roulette",data)
+    joinRoom(data, new_room.id)
+    socket.join(new_room.id)
+    socket.to(new_room.id).emit("get_room", getRoomDetails(new_room.id));
+    socket.emit("get_room", getRoomDetails(new_room.id));
   });
 
   socket.on("get_userroom", (data) => {
