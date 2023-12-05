@@ -8,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { MainNav } from "@/components/layout/main-nav"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ModeToggle } from "@/components/shared/mode-toggle"
+import { socket } from "@/lib/socketio"
 
 export function SiteHeader() {
   const scrolled = useScroll(0)

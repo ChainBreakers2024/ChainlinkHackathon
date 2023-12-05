@@ -3,8 +3,12 @@
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 export const menuDashboard = [
   {
-    label: "Overview",
+    label: "Lobbies",
     href: "/dashboard",
+  },  
+  {
+    label: "Current Room",
+    href: "/dashboard/room",
   },
   {
     label: "Account",

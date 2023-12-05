@@ -8,12 +8,13 @@ import { Card } from "@/components/ui/card"
 import { WalletAddress } from "../blockchain/wallet-address";
 import { WalletBalance } from "../blockchain/wallet-balance";
 import { WalletNonce } from "../blockchain/wallet-nonce";
+import { emit } from "process";
 
 const RoomPage = ({ socket }: any) => {
   const [userRoom, setuserRoom] = useState([]);
   const [userRoomId, setuserRoomId] = useState([]);
-  const address = useAccount().address;
   const [userList, setUserList] = useState([]);
+  const address = useAccount().address;
 
   useEffect(() => {
     socket.emit("get_userroom", address);
@@ -42,21 +43,31 @@ const RoomPage = ({ socket }: any) => {
       <span className="mr-1 font-bold">Game:</span> {userRoom.game}
     </div>
     <div className="mt-3">
-      <span className="mr-1 font-bold">Users:</span>{userRoom.users && userRoom.users.map((user, index) => (
-  <div
-    key={index}
-    style={{
-      display: "flex",
-      alignItems: "left",
-      justifyContent: "space-between",
-      marginBottom: "10px",
-    }}
-  >
-    <div style={{ textAlign: "left" }}>
-      <p>{user}</p>
-    </div>
-  </div>
-))}
+    <span className="mr-1 font-bold">Users:</span>
+    <div
+  style={{
+    height:"150px",
+    maxHeight: "150px", // Set your desired maximum height here
+    overflowY: "auto", // Enable vertical scrolling
+  }}
+>
+  {userRoom.users &&
+    userRoom.users.map((user, index) => (
+      <div
+        key={index}
+        style={{
+          display: "flex",
+          alignItems: "left",
+          justifyContent: "space-between",
+          marginBottom: "10px",
+        }}
+      >
+        <div style={{ textAlign: "left" }}>
+          <p>{user}</p>
+        </div>
+      </div>
+    ))}
+</div>
 
     </div>
     <div className="mt-3">

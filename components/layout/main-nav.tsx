@@ -19,12 +19,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Separator } from "@/components/ui/separator"
 import { LightDarkImage } from "@/components/shared/light-dark-image"
-
 import { LinkComponent } from "../shared/link-component"
-import { io } from "socket.io-client"
-
-var socket: any;
-socket = io("http://80.208.221.81:8080");
+import { socket } from "@/lib/socketio"
 
 export function MainNav() {
   return (
