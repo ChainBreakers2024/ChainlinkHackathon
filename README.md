@@ -1,12 +1,12 @@
 <div align="center" style="margin-top: 1em; margin-bottom: 3em;">
-  <a href="https://ethereum.org"><img alt="chainbreakers logo" src="./public/eth-logo-gradient.png" alt="chainbreakers.online" width="125"></a>
+  <a href="https://chainbreakers.online"><img alt="chainbreakers logo" src="./public/logo-gradient.png" alt="chainbreakers.online" width="125"></a>
   <h1>👋 Welcome to chainbreakers.online!</h1>
 </div>
 
 
-This is the repo for the [chainbreaker.online](https://chainbreaker.online) website, a project offering gaming experiences without gambling, prioritizing responsible entertainment. The site's goal is to provide a platform for players to enjoy games without the risk associated with gambling practices. Read more about the project's mission and objectives [here](https://chainbreaker.online/about/).
+This is the repo for the [chainbreaker.online](https://chainbreakers.online) website, a project offering gaming experiences without gambling, prioritizing responsible entertainment. The site's goal is to provide a platform for players to enjoy games without the risk associated with gambling practices. Read more about the project's mission and objectives [here](https://chainbreakers.online/about/).
 
-[chainbreaker.online](https://chainbreaker.online) is continually evolving with contributions from community members who contribute content, provide feedback, or volunteer their time to enhance its features. If you’re interested in contributing to the improvement of [chainbreaker.online](https://chainbreaker.online).
+[chainbreaker.online](https://chainbreakers.online) is continually evolving with contributions from community members who contribute content, provide feedback, or volunteer their time to enhance its features. If you’re interested in contributing to the improvement of [chainbreaker.online](https://chainbreakers.online).
 
 
 
