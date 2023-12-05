@@ -14,7 +14,6 @@ import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected
 import { useState, useEffect } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { p } from "@bgd-labs/aave-address-book/dist/AaveV2EthereumAssets-3fdcb680";
-import { socket } from "@/lib/socketio"
 
 
 export default function PageDashboard() {
@@ -52,7 +51,7 @@ export default function PageDashboard() {
             </span>
             <br></br>
 
-            <LobbyPage socket = {socket}></LobbyPage>
+            <LobbyPage></LobbyPage>
 
           </div>
         </div>

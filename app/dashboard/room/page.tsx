@@ -12,6 +12,7 @@ import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected
 import { useAccount } from "wagmi";
 import { useState, useEffect } from "react";
 import RoomPage from "@/components/app/room"
+import ChatRoomPage from "@/components/app/chat"
 import { socket } from "@/lib/socketio"
 
 const data = [
@@ -27,14 +28,17 @@ export default function PageDashboardAccount() {
   return (
     <motion.div
       animate="show"
-      className="flex h-full w-full items-center justify-center py-6 lg:py-8"
+      className="flex h-full w-full py-6 lg:py-8 flex-col-reverse lg:flex-row-reverse items-start lg:items-end"
       initial="hidden"
       variants={FADE_DOWN_ANIMATION_VARIANTS}
       viewport={{ once: true }}
       whileInView="show"
     >
       <IsWalletConnected>
-        <RoomPage socket = {socket}></RoomPage>
+        <div className="lg:ml-auto">
+        <RoomPage socket={socket}></RoomPage>
+        <ChatRoomPage socket={socket}></ChatRoomPage>
+        </div>
       </IsWalletConnected>
       <IsWalletDisconnected>
         <h3 className="text-lg font-normal">
@@ -43,4 +47,5 @@ export default function PageDashboardAccount() {
       </IsWalletDisconnected>
     </motion.div>
   )
+  
 }

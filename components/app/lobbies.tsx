@@ -4,24 +4,24 @@ import style from "./chat.module.css";
 import { useAccount } from "wagmi";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
+import { getSocket, disconnectSocket, initSocket } from "@/lib/socketio";
 import room from "./room";
 
-const LobbyPage = ({ socket }: any) => {
+const LobbyPage = () => {
   const [lobiler, setLobi] = useState([]);
   const [clickedRoom, setClickedRoom] = useState(null);
   const [searchTerm, setSearchTerm] = useState(''); // State to hold search term
   const address = useAccount().address;
+  const socket = initSocket();
 
-  useEffect(() => {
-    socket.emit("get_rooms", "temp");
-    socket.on("get_room", (data: any) => {
-      setClickedRoom(data)
-    });
-    socket.on("get_rooms", (data: any) => {
-      const lobiList = data;
-      setLobi(lobiList);
-    });
-  }, [socket]);
+  socket.emit("get_rooms", "temp");
+  socket.on("get_room", (data: any) => {
+    setClickedRoom(data)
+  });
+  socket.on("get_rooms", (data: any) => {
+    const lobiList = data;
+    setLobi(lobiList);
+  });
 
   socket.on("connect", () => {
     console.log(address); // x8WIv7-mJelg7on_ALbx

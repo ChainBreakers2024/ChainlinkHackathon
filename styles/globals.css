@@ -32,7 +32,7 @@
     --foreground: 0 0% 3.9%;
 
     /* <Card /> */
-    --card: 0 0% 98%;
+    --card: 0 0% %;
     --card-foreground: 0 0% 3.9%;
 
     /* <Dropdown />, <HoverCard />, <Popover /> */

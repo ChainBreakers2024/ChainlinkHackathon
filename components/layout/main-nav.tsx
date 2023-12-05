@@ -20,7 +20,6 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { LightDarkImage } from "@/components/shared/light-dark-image"
 import { LinkComponent } from "../shared/link-component"
-import { socket } from "@/lib/socketio"
 
 export function MainNav() {
   return (

@@ -1,6 +1,5 @@
 import { env } from "@/env.mjs"
 import { getIronSession } from "iron-session"
-import { socket } from "@/lib/socketio"
 import { prisma } from "@/lib/prisma"
 import { SERVER_SESSION_SETTINGS } from "@/lib/session"
 

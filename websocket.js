@@ -19,7 +19,7 @@ const rooms = [
   game: "roulette",
   name: "Test Room 1",
   owner: "",
-  users: ["0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2"],
+  users: ["0xB5653117d7FE2Da50741B85c6fe53d3133828cf5","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2"],
   },
 ]
 let users = []
@@ -130,6 +130,12 @@ function getUserDetails(userName) {
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
+
+  socket.on("send_message", (data) => {
+    console.log(getUserDetails(data.address))
+    socket.to(getUserDetails(data.address)).emit("chat_message", { sender: data.address, text: data.message });
+    socket.emit("chat_message", { sender: data.address, text: data.message });
+  });
 
   socket.on("join_room", (data) => {
     if (getUserDetails(data.name) ) {

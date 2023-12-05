@@ -9,12 +9,14 @@ import { WalletAddress } from "../blockchain/wallet-address";
 import { WalletBalance } from "../blockchain/wallet-balance";
 import { WalletNonce } from "../blockchain/wallet-nonce";
 import { emit } from "process";
+import { getSocket, disconnectSocket, initSocket } from "@/lib/socketio";
 
-const RoomPage = ({ socket }: any) => {
+const RoomPage = () => {
   const [userRoom, setuserRoom] = useState([]);
   const [userRoomId, setuserRoomId] = useState([]);
   const [userList, setUserList] = useState([]);
   const address = useAccount().address;
+  const socket = initSocket();
 
   useEffect(() => {
     socket.emit("get_userroom", address);
