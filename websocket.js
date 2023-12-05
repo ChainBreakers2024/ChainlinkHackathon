@@ -132,9 +132,8 @@ io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
 
   socket.on("send_message", (data) => {
-    console.log(getUserDetails(data.address))
-    socket.to(getUserDetails(data.address)).emit("chat_message", { sender: data.address, text: data.message });
-    socket.emit("chat_message", { sender: data.address, text: data.message });
+    socket.to(getUserDetails(data.address)).emit("chat_message", { sender: `${data.address.slice(0, 6)}...${data.address.slice(-4)}`, text: data.message });
+    socket.emit("chat_message", { sender: `${data.address.slice(0, 6)}...${data.address.slice(-4)}`, text: data.message });
   });
 
   socket.on("join_room", (data) => {
