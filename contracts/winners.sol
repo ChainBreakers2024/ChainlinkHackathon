@@ -4,21 +4,28 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-
 contract TokenDistribution is Ownable {
-    IERC20 public testToken; // Dağıtılacak token'ın adresi
-    address[] public winners; // Kazanan cüzdanların adresleri
+    IERC20 public testToken; 
+    address[] public winners; 
+    bool public distributionCompleted;
 
     event TokensDistributed(address indexed winner, uint256 amount);
 
-constructor(address _testToken, address initialOwner) Ownable(initialOwner) {
-    testToken = IERC20(_testToken);
-}
-    function addWinner(address _winner) external onlyOwner {
+    modifier distributionNotCompleted() {
+        require(!distributionCompleted, "Distribution has already been completed");
+        _;
+    }
+
+    constructor(address _testToken) {
+        testToken = IERC20(_testToken);
+        distributionCompleted = false;
+    }
+
+    function addWinner(address _winner) external onlyOwner distributionNotCompleted {
         winners.push(_winner);
     }
 
-    function distributeTokens() external onlyOwner {
+    function distributeTokens() external onlyOwner distributionNotCompleted {
         uint256 totalWinners = winners.length;
         require(totalWinners > 0, "No winners to distribute tokens to");
 
@@ -32,7 +39,8 @@ constructor(address _testToken, address initialOwner) Ownable(initialOwner) {
             emit TokensDistributed(winners[i], amountPerWinner);
         }
 
-        // Clear the winners array after distribution
+        distributionCompleted = true;
+        
         delete winners;
     }
 }
