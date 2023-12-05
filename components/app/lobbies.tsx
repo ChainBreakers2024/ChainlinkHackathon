@@ -12,6 +12,9 @@ const LobbyPage = ({ socket }: any) => {
 
   useEffect(() => {
     socket.emit("get_rooms", "temp");
+    socket.on("get_room", (data: any) => {
+      setClickedRoom(data)
+    });
     socket.on("get_rooms", (data: any) => {
       const lobiList = data;
       setLobi(lobiList);
@@ -23,8 +26,7 @@ const LobbyPage = ({ socket }: any) => {
   });
 
   const listRooms = (roomId: any) => {
-    const clickedRoom = lobiler.find((room) => room.roomId === roomId) || [];
-    setClickedRoom(clickedRoom);
+    socket.emit("get_room", roomId);
   };
 
   const joinRoom = (roomId: any) => {

@@ -102,6 +102,7 @@ function leaveRoom(userName, roomId) {
 }
 
 function getRoomDetails(roomId) {
+  if (!roomId) {return};
   const room = rooms.find(room => room.id === roomId);
   const userList = room.users.map(user => `${user.slice(0, 6)}...${user.slice(-4)}`);
 
@@ -120,7 +121,7 @@ function checkUser(userName) {
 
 function getUserDetails(userName) {
   const userRoom = rooms.find(room => room.users.includes(userName));
-  return userRoom ? userRoom.id : "User not found in any room";
+  return userRoom ? userRoom.id : false;
 }
 
 io.on("connection", (socket) => {
@@ -130,6 +131,14 @@ io.on("connection", (socket) => {
     if (checkUser() == false) {
       newUser(data.name)
     }
+    if (getUserDetails(data.name)) {
+      const old_room = getUserDetails(data.name)
+      leaveRoom(data.name, old_room)
+      socket.leave(old_room)
+      socket.to(old_room).emit("get_room", getRoomDetails(old_room));
+      socket.emit("get_room", getRoomDetails(old_room));
+    }
+
     joinRoom(data.name, data.id)
     socket.join(data.id)
     socket.to(data.id).emit("get_room", getRoomDetails(data.id));
