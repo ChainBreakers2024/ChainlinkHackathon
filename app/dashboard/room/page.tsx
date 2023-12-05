@@ -11,9 +11,9 @@ import { IsWalletConnected } from "@/components/shared/is-wallet-connected"
 import { IsWalletDisconnected } from "@/components/shared/is-wallet-disconnected"
 import { useAccount } from "wagmi";
 import { useState, useEffect } from "react";
-import RoomPage from "@/components/app/room"
+import CoinFlip from "@/components/app/coinflip"
 import ChatRoomPage from "@/components/app/chat"
-import { socket } from "@/lib/socketio"
+import RoomPage from "@/components/app/room"
 
 const data = [
   { option: '0', style: { backgroundColor: 'green', textColor: 'black' } },
@@ -28,16 +28,21 @@ export default function PageDashboardAccount() {
   return (
     <motion.div
       animate="show"
-      className="flex h-full w-full py-6 lg:py-8 flex-col-reverse lg:flex-row-reverse items-start lg:items-end"
+      className="flex h-full w-full py-6 lg:py-8 flex-col lg:flex-row items-start"
       initial="hidden"
       variants={FADE_DOWN_ANIMATION_VARIANTS}
       viewport={{ once: true }}
       whileInView="show"
     >
       <IsWalletConnected>
-        <div className="lg:ml-auto">
-        <RoomPage socket={socket}></RoomPage>
-        <ChatRoomPage socket={socket}></ChatRoomPage>
+        <div className="flex flex-col lg:flex-row flex-grow">
+          <div className="flex-grow h-full">
+            <CoinFlip style={{ height: "100%" }}></CoinFlip>
+          </div>
+          <div className="lg:ml-auto">
+            <RoomPage></RoomPage>
+            <ChatRoomPage></ChatRoomPage>
+          </div>
         </div>
       </IsWalletConnected>
       <IsWalletDisconnected>
@@ -47,5 +52,5 @@ export default function PageDashboardAccount() {
       </IsWalletDisconnected>
     </motion.div>
   )
-  
+    
 }

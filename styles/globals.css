@@ -32,7 +32,7 @@
     --foreground: 0 0% 3.9%;
 
     /* <Card /> */
-    --card: 0 0% %;
+    --card: 0 0% 98%;
     --card-foreground: 0 0% 3.9%;
 
     /* <Dropdown />, <HoverCard />, <Popover /> */
@@ -106,17 +106,6 @@
   padding: 20px;
   border: 1px solid #ccc;
 }
-@-webkit-keyframes flipHeads {
-  from { -webkit-transform: rotateY(0); -moz-transform: rotateY(0); transform: rotateY(0); }
-  to { -webkit-transform: rotateY(1800deg); -moz-transform: rotateY(1800deg); transform: rotateY(1800deg); }
-}
-@-webkit-keyframes flipTails {
-  from { -webkit-transform: rotateY(0); -moz-transform: rotateY(0); transform: rotateY(0); }
-  to { -webkit-transform: rotateY(1980deg); -moz-transform: rotateY(1980deg); transform: rotateY(1980deg); }
-}
-
-
-
 @layer base {
   * {
     @apply border-border;
