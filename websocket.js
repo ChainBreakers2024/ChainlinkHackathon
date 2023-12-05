@@ -20,7 +20,7 @@ const rooms = [
   name: "Test Room 1",
   owner: "",
   users: ["0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2"],
-},
+  },
 ]
 let users = []
 
@@ -132,11 +132,8 @@ io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
 
   socket.on("join_room", (data) => {
-    if (getUserDetails(data.name) == data.id) {
-      console.log("test")
-    }
-
     if (getUserDetails(data.name) ) {
+      if (getUserDetails(data.name) == data.id) return  
       const old_room = getUserDetails(data.name)
       leaveRoom(data.name, old_room)
       socket.leave(old_room)
