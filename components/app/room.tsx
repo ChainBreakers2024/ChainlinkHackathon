@@ -38,13 +38,13 @@ const RoomPage = () => {
 
   return (
     <Card className="w-[420px] p-6">
-      {userRoom && <h3 className="text-2xl font-normal">{userRoom.roomName}</h3>}
+      <h3 className="text-2xl font-normal">{userRoom?.roomName}</h3>
       <hr className="my-3 dark:opacity-30" />
       <div className="mt-3">
-        <span className="mr-1 font-bold">Id:</span> {userRoom.roomId}
+        <span className="mr-1 font-bold">Id:</span> {userRoom?.roomId}
       </div>
       <div className="mt-3">
-        <span className="mr-1 font-bold">Game:</span> {userRoom.game}
+        <span className="mr-1 font-bold">Game:</span> {userRoom?.game}
       </div>
       <div className="mt-3">
         <span className="mr-1 font-bold">Users:</span>
@@ -55,8 +55,8 @@ const RoomPage = () => {
             overflowY: "auto", // Enable vertical scrolling
           }}
         >
-          {userRoom.users &&
-            userRoom.users.map((user, index) => (
+          {userRoom?.users &&
+            userRoom?.users.map((user, index) => (
               <div
                 key={index}
                 style={{
@@ -76,7 +76,7 @@ const RoomPage = () => {
       <div className="mt-3">
         <Link
           href={"/dashboard"}
-          onClick={() => leaveRoom(userRoom.roomId)}
+          onClick={() => leaveRoom(userRoom?.roomId)}
           rel="noreferrer noopener"
           className={buttonVariants({ variant: "secondary" })}
         >

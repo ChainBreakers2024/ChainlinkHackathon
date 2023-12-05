@@ -13,17 +13,10 @@ const io = new Server(server, {
   },
 });
 
-const rooms = [
-  {
-  id: "002cfa6a-8e25-4a0b-9af2-a112cb43c49f",
-  game: "roulette",
-  name: "Test Room 1",
-  owner: "",
-  users: ["0xB5653117d7FE2Da50741B85c6fe53d3133828cf5","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2","0xB5653117d7FE2Da50731B85c6fe53d3133828cf2"],
-  },
-]
+const rooms = []
 let users = []
 
+// UUID Generate function
 function uuidV4() {
   const uuid = new Array(36);
   for (let i = 0; i < 36; i++) {
@@ -36,6 +29,7 @@ function uuidV4() {
   return uuid.map((x) => x.toString(16)).join('');
 }
 
+// Random room name function
 function createRandomRoomName() {
   const gamblingWords = ["Jackpot", "Bet", "Lucky", "Roller", "Casino", "Ace", "Poker", "Fortune", "Champion", "Win", "Gold", "Spin", "Joker", "Diamond", "Bingo", "Cash", "Gamble", "Rich", "High Roller", "Lotto", "Blackjack", "Slot", "Coin", "Prize", "Card", "Fortune", "Chance", "Wager", "Deal", "Pot", "Baccarat", "Roulette", "Challenge", "Risky", "Lure", "Gaming", "Stack", "Gala", "Victory", "Feast", "Celebration", "Mystery", "Fate", "Hazard", "Play", "Epic", "Zest", "Thrill", "Bonanza", "Treasure", "Jack", "Risk", "Dice", "Betrayal", "Greed", "Luck"];
   const roomTypes = ["Room", "Lounge", "Suite", "Den", "Parlor", "Zone", "Hangout", "Chamber", "Club", "Cove", "Cabin", "Grotto", "Haven", "Oasis", "Vault", "Emporium", "Hideaway", "Retreat", "Sanctuary", "Casita", "Nest", "Habitat", "Manor", "Mansion", "Palace", "Estate", "Villa", "Resort", "Inn", "Hotel", "Quarters", "Atrium", "Bungalow", "Camp", "Cellar", "Coliseum", "Crypt", "Dormitory", "Foyer", "Gallery", "Gazebo", "Harbor", "Kennel", "Labyrinth", "Observatory", "Pavilion", "Pyramid", "Silo", "Terrace", "Utopia", "Vestibule", "Warehouse", "Xanadu", "Yacht"];
@@ -47,6 +41,7 @@ function createRandomRoomName() {
   return randomRoomName;
 }
 
+// New room function
 function newRoom(roomName, game, owner) {
   let uuid = uuidV4()
   const newRoom = {
@@ -61,13 +56,13 @@ function newRoom(roomName, game, owner) {
 }
 
 
-// Yeni kullanıcı ekleme fonksiyonu
+// New user function
 function newUser(userName) {
   users.push(userName);
   return userName;
 }
 
-// Kullanıcıyı odaya ekleme fonksiyonu
+// Joining room function
 function joinRoom(userName, roomId) {
   const room = rooms.find(room => room.id === roomId);
   if (room) {
@@ -77,6 +72,7 @@ function joinRoom(userName, roomId) {
   }
 }
 
+// Listin room function
 function listRooms() {
   return rooms.map(room => {
     return {
@@ -88,7 +84,7 @@ function listRooms() {
   });
 }
 
-// Kullanıcıyı odadan çıkarma fonksiyonu
+// Leaving room function
 function leaveRoom(userName, roomId) {
   const roomIndex = rooms.findIndex(room => room.id === roomId);
   if (roomIndex !== -1) {
@@ -101,8 +97,7 @@ function leaveRoom(userName, roomId) {
   }
 }
 
-
-
+// Getting room details function
 function getRoomDetails(roomId) {
   const room = rooms.find(room => room.id === roomId);
   if (!room || !room.users) {
@@ -119,10 +114,7 @@ function getRoomDetails(roomId) {
   };
 }
 
-function checkUser(userName) {
-  return users.includes(userName);
-}
-
+// Getting user details function
 function getUserDetails(userName) {
   const userRoom = rooms.find(room => room.users.includes(userName));
   return userRoom ? userRoom.id : false;

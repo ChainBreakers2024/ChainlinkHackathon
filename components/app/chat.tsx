@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./chat.module.css";
 import { useAccount } from "wagmi";
 import Link from "next/link";
@@ -20,7 +20,15 @@ const ChatRoomPage = () => {
   const [messageInput, setMessageInput] = useState('');
   const [messages, setMessages] = useState<{ sender: string; text: string }[]>([]);
   const address = useAccount().address;
+  const messageContainerRef = useRef(null);
 
+  // Scroll to the bottom of the message container whenever new messages are added
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+  
   useEffect(() => {
     // Get the initial room details for the user
     socket.emit("get_userroom", address);
@@ -37,7 +45,7 @@ const ChatRoomPage = () => {
       setUserRoom(data);
     });
   }, [socket]);
-  
+
   useEffect(() => {
     const handleNewMessage = (message: { sender: string; text: string; }) => {
       // Update state with the new message
@@ -52,10 +60,16 @@ const ChatRoomPage = () => {
       socket.off('chat_message', handleNewMessage);
     };
   }, [socket]);
+
   const sendMessage = () => {
     if (messageInput.trim() !== '') {
       socket.emit("send_message", {message: messageInput, address: address});
       setMessageInput('');
+    }
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
     }
   };
 
@@ -66,7 +80,7 @@ const ChatRoomPage = () => {
 
       {/* Display chat messages */}
       <div className="mt-3">
-        <div style={{ height: "200px", overflowY: "auto" }}>
+        <div ref={messageContainerRef} style={{ height: "200px", overflowY: "auto" }}>
           {messages.map((message, index) => (
             <div key={index} style={{ marginBottom: "10px" }}>
               <p>{message.sender}: {message.text}</p>
@@ -76,18 +90,20 @@ const ChatRoomPage = () => {
       </div>
 
       {/* Input box for sending messages */}
-      <div className="mt-3">
+      <div className="mt-3 flex">
         <input
           type="text"
           value={messageInput}
           onChange={(e) => setMessageInput(e.target.value)}
+          onKeyDown={handleKeyPress}
           placeholder="Type your message..."
-          className="w-full p-2 rounded border"
+          className="flex-1 p-2 rounded border mr-2"
         />
-        <button onClick={sendMessage} className="p-2 bg-blue-500 text-white rounded ml-2">
+        <button style={{ height:"45px" }} onClick={sendMessage} className={buttonVariants({ variant: "secondary" }) }>
           Send
         </button>
       </div>
+
     </Card>
   );
 };
