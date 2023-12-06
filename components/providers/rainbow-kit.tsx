@@ -31,7 +31,7 @@ const connectors = connectorsForWallets([
     groupName: "Recommended",
     wallets: [
       injectedWallet({ chains }),
-      metaMaskWallet({ chains }),
+      metaMaskWallet({ chains, shimDisconnect: true }),
       rainbowWallet({ chains }),
       coinbaseWallet({ chains, appName: siteConfig.name }),
       walletConnectWallet({ chains }),
@@ -109,10 +109,10 @@ export function RainbowKit({ children }: { children: ReactNode }) {
   const [colorMode] = useColorMode()
   return (
     <WagmiConfig config={wagmiConfig}>
-        <RainbowKitAuthenticationProvider
-            adapter={authAdapter}
-            status={authStatus}
-          >
+      <RainbowKitAuthenticationProvider
+          adapter={authAdapter}
+          status={authStatus}
+        >
           <RainbowKitProvider
             chains={chains}
             theme={colorMode == "dark" ? darkTheme() : lightTheme()}
