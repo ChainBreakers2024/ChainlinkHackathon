@@ -5,6 +5,7 @@ import { z } from "zod"
 
 import { prisma } from "@/lib/prisma"
 import { SERVER_SESSION_SETTINGS } from "@/lib/session"
+import console from "console"
 
 const admins = env.APP_ADMINS?.split(",") || []
 
@@ -27,8 +28,9 @@ export async function POST(req: Request) {
     const res = new Response(JSON.stringify({ ok: true }))
     const session = await getIronSession(req, res, SERVER_SESSION_SETTINGS)
     const { message, signature } = verifySchema.parse(await req.json())
-    const siweMessage = new SiweMessage(message)
+    const siweMessage = new SiweMessage(message);
     const fields = await siweMessage.validate(signature)
+
     if (fields.nonce !== session.nonce)
       return new Response(JSON.stringify({ message: "Invalid nonce." }), {
         status: 422,

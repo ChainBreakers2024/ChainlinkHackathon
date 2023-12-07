@@ -1,43 +1,39 @@
 "use client"
 
 import "@rainbow-me/rainbowkit/styles.css"
-
-import { ReactNode, useMemo, useRef, useState } from "react"
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react"
 import {
   AuthenticationStatus,
   connectorsForWallets,
   createAuthenticationAdapter,
   darkTheme,
+  getDefaultWallets,
   lightTheme,
   RainbowKitAuthenticationProvider,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit"
-import {
-  coinbaseWallet,
-  injectedWallet,
-  metaMaskWallet,
-  rainbowWallet,
-  walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets"
-import { createConfig, WagmiConfig } from "wagmi"
-import { SessionProvider } from 'next-auth/react';
-import { chains, publicClient, webSocketPublicClient } from "@/config/networks"
-import { siteConfig } from "@/config/site"
+import { configureChains, createConfig, mainnet, sepolia, WagmiConfig } from "wagmi"
+import { publicClient, webSocketPublicClient } from "@/config/networks"
 import { useColorMode } from "@/lib/state/color-mode"
 import { SiweMessage } from "siwe"
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
-const connectors = connectorsForWallets([
-  {
-    groupName: "Recommended",
-    wallets: [
-      injectedWallet({ chains }),
-      metaMaskWallet({ chains, shimDisconnect: true }),
-      rainbowWallet({ chains }),
-      coinbaseWallet({ chains, appName: siteConfig.name }),
-      walletConnectWallet({ chains }),
-    ],
-  },
-])
+const { chains } = configureChains(
+  [sepolia],
+  [
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: `https://ethereum-sepolia.publicnode.com`,
+      }),
+    }),
+  ],
+)
+
+const { connectors } = getDefaultWallets({
+  appName: 'My RainbowKit App',
+  projectId: '291287d6b621d3de43d19b19edd3286f',
+  chains
+});
 
 const wagmiConfig = createConfig({
   autoConnect: true,
@@ -51,6 +47,30 @@ export function RainbowKit({ children }: { children: ReactNode }) {
   const fetchingStatusRef = useRef(false);
   const verifyingRef = useRef(false);
   const [authStatus, setAuthStatus] = useState<AuthenticationStatus>('loading');
+  
+  useEffect(() => {
+    const fetchStatus = async () => {
+      if (fetchingStatusRef.current || verifyingRef.current) {
+        return;
+      }
+
+      fetchingStatusRef.current = true;
+
+      try {
+        const response = await fetch('/api/app/user');
+        const json = await response.json();
+        setAuthStatus(json.address ? 'authenticated' : 'unauthenticated');
+      } catch (_error) {
+        setAuthStatus('unauthenticated');
+      } finally {
+        fetchingStatusRef.current = false;
+      }
+    };
+    fetchStatus();
+
+    window.addEventListener('focus', fetchStatus);
+    return () => window.removeEventListener('focus', fetchStatus);
+  }, []);
 
   const authAdapter = useMemo(() => {
     return createAuthenticationAdapter({
@@ -63,7 +83,7 @@ export function RainbowKit({ children }: { children: ReactNode }) {
         return new SiweMessage({
           domain: window.location.host,
           address,
-          statement: 'Sign in with Etherum to the app.',
+          statement: 'Sign in with Etherum to t2e app.',
           uri: window.location.origin,
           version: '1',
           chainId,
@@ -82,14 +102,13 @@ export function RainbowKit({ children }: { children: ReactNode }) {
           const response = await fetch('/api/siwe/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message, signature }),
+            body: JSON.stringify({ message, "signature": signature }),
           });
   
           const authenticated = Boolean(response.ok);
-  
+
           if (authenticated) {
             setAuthStatus(authenticated ? 'authenticated' : 'unauthenticated');
-            dispatchEvent(new Event("verified"))
           }
   
           return authenticated;
@@ -107,6 +126,7 @@ export function RainbowKit({ children }: { children: ReactNode }) {
     });
   }, []);
   const [colorMode] = useColorMode()
+  console.log(colorMode)
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitAuthenticationProvider

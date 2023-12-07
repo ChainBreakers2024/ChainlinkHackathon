@@ -24,7 +24,6 @@ const LobbyPage = () => {
   });
 
   socket.on("connect", () => {
-    console.log(address); // x8WIv7-mJelg7on_ALbx
   });
 
   const listRooms = (roomId: any) => {

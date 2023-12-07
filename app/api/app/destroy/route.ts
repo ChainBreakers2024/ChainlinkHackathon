@@ -7,26 +7,15 @@ export type User = Awaited<ReturnType<typeof prisma.user.findFirst>>
 export async function GET(req: Request) {
   const res = new Response()
   const session = await getIronSession(req, res, SERVER_SESSION_SETTINGS)
-
-  if (session.siwe) {
-    const user = await prisma.user.findFirst({
-      where: { id: session.siwe.address },
-    })
-    
+  if (session) {
+    session.destroy()
     return new Response(
-      JSON.stringify({
-        address: session.siwe.address,
-        igc: user.igc,
-        isLoggedIn: true,
-        isAdmin: session.isAdmin,
-      }),
+      JSON.stringify({"destroy": "ok"}),
       { status: 200, headers: { "Content-Type": "application/json" } }
     )
   } else {
     return new Response(
-      JSON.stringify({
-        isLoggedIn: false,
-      }),
+      JSON.stringify({"destroy": "ok"}),
       { status: 200, headers: { "Content-Type": "application/json" } }
     )
   }

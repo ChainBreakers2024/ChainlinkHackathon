@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 import { FaDiscord, FaGithub } from "react-icons/fa"
@@ -13,6 +14,11 @@ import {
   PageHeaderHeading,
 } from "@/components/layout/page-header"
 import { CopyButton } from "@/components/shared/copy-button"
+import { depositTransaction } from "@/lib/app/deposit"
+
+const test = () => {
+  depositTransaction("0.0000001")
+};
 
 export default function HomePage() {
   return (
@@ -28,7 +34,10 @@ export default function HomePage() {
         <PageHeaderHeading>Chain Breakers</PageHeaderHeading>
         <PageHeaderDescription>{siteConfig.description}</PageHeaderDescription>
         <PageHeaderCTA>
-         
+        <button
+        onClick={() => test()}>
+          test
+        </button>
           <Link
             href={"https://github.com/ChainBreakers2024/ChainlinkHackathon"}
             target="_blank"
